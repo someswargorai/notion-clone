@@ -29,7 +29,8 @@ function Sidebar() {
   const [currentSideBar, setCurrentSideBar] = useState("Home");
   const [hide, setHide] = useState<Record<string, boolean>>({});
   const dispatch = useAppDispatch();
-  const {projects}= useAppSelector(state=>state.project);
+  const { projects } = useAppSelector((state) => state.project);
+  const [drag, setDrag]=useState(false);
 
   const items = [
     { id: 1, name: "Home", isCollapsable: false, icon: <Home size={18} /> },
@@ -38,7 +39,7 @@ function Sidebar() {
       name: "Projects",
       icon: <Folder size={18} />,
       isCollapsable: true,
-      child: projects
+      child: projects,
     },
     {
       id: 3,
@@ -105,17 +106,61 @@ function Sidebar() {
     dispatch(toggleProjectState(true));
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key.toLowerCase() === "b") {
+        setWidth((prev) =>
+          prev === fixed_width ? collapsed_width : fixed_width
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!drag) return;
+      const newWidth = Math.min(Math.max(e.clientX, 257), 560);
+      setWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      setDrag(false);
+    };
+
+    if (drag) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [drag]);
+
+
   return (
     <div
-      className="bg-white border-r border-gray-200 text-gray-800 min-h-screen p-4 transition-all duration-300 ease-in-out shadow-sm flex flex-col justify-between"
+      className={`bg-white border-r border-gray-200 text-gray-800 min-h-screen p-4 transition-all duration-300 ease-in-out shadow-sm flex-col ${width>=fixed_width ? "flex justify-between": "flex justify-center items-center"}`}
       style={{ width }}
+    
     >
+       <div
+        onMouseDown={() => setDrag(true)}
+        className="cursor-w-resize min-h-screen fixed top-0 left-0 select-none"
+        style={{
+          width:width
+        }}
+      ></div>
       <div
         className={`flex items-center ${
-          width === fixed_width ? "justify-between" : "justify-center"
+          width >= fixed_width ? "justify-between" : "justify-center"
         }`}
       >
-        {width === fixed_width && (
+        {width >= fixed_width && (
           <p className="text-lg font-semibold tracking-tight text-gray-900">
             Notion
           </p>
@@ -124,14 +169,14 @@ function Sidebar() {
           size={22}
           className="text-gray-500 cursor-pointer hover:text-gray-800 transition-colors"
           onClick={() =>
-            setWidth(width === fixed_width ? collapsed_width : fixed_width)
+            setWidth(width >= fixed_width ? collapsed_width : fixed_width)
           }
         />
       </div>
 
       <div
         className={`pt-8 flex-1 ${
-          width === fixed_width ? "overflow-y-auto" : "overflow-visible"
+          width >= fixed_width ? "overflow-y-auto" : "overflow-visible"
         } custom_scrollbar`}
       >
         {items.map((data) => (
@@ -157,7 +202,7 @@ function Sidebar() {
                 {data.icon}
               </span>
 
-              {width === fixed_width && (
+              {width >= fixed_width && (
                 <div className="flex justify-between w-full items-center">
                   <span className="text-sm font-medium">{data.name}</span>
                   <div className="flex gap-2">
@@ -178,7 +223,7 @@ function Sidebar() {
                 </div>
               )}
 
-              {width === collapsed_width &&
+              {width <= collapsed_width &&
                 hide[data.name] &&
                 data?.isCollapsable && (
                   <div
@@ -198,7 +243,7 @@ function Sidebar() {
                 )}
             </div>
 
-            {width === fixed_width && hide[data.name] && data?.isCollapsable && (
+            {width >= fixed_width && hide[data.name] && data?.isCollapsable && (
               <div className="ml-8 mt-1 flex flex-col gap-1 border-l border-gray-200 pl-3 transition-all duration-200">
                 {data?.child?.map((child) => (
                   <p
@@ -218,15 +263,16 @@ function Sidebar() {
       <div>
         <div
           className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-200 ${
-            width === collapsed_width ? "justify-center" : ""
+            width <= collapsed_width ? "justify-center" : ""
           }`}
         >
           <User size={18} className="text-gray-500" />
-          {width === fixed_width && (
+          {width >= fixed_width && (
             <span className="text-sm font-medium text-gray-700">Profile</span>
           )}
         </div>
       </div>
+      
     </div>
   );
 }
