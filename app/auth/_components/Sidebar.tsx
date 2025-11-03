@@ -150,9 +150,10 @@ function Sidebar() {
     >
        <div
         onMouseDown={() => setDrag(true)}
-        className="cursor-w-resize min-h-screen fixed top-0 left-0 select-none"
+        className="cursor-w-resize min-h-screen fixed top-0 select-none"
         style={{
-          width:width
+          width:"10px",
+          left:width
         }}
       ></div>
       <div
