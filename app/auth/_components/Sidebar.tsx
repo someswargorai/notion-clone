@@ -28,6 +28,7 @@ const collapsed_width = 80;
 function Sidebar() {
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [width, setWidth] = useState(fixed_width);
+  const [resize, setResize]=useState(0);
   const [currentSideBar, setCurrentSideBar] = useState("Home");
   const [hide, setHide] = useState<Record<string, boolean>>({});
   const dispatch = useAppDispatch();
@@ -86,11 +87,14 @@ function Sidebar() {
   ];
 
   useEffect(() => {
+    
     const handleResize = () => {
       setWidth(window.innerWidth < 700 ? collapsed_width : fixed_width);
+      setResize(window.innerWidth);
     };
-    window.addEventListener("resize", handleResize);
+
     handleResize();
+    window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -151,7 +155,7 @@ function Sidebar() {
           ? "flex justify-between"
           : "flex justify-center items-center"
       }`}
-      style={{ width }}
+      style={{ width: width, display: resize < 500 ? "none" : "block" }}
     >
       <div
         onMouseDown={() => setDrag(true)}
@@ -196,9 +200,9 @@ function Sidebar() {
                   [data.name]: !prev[data.name],
                 }));
                 setCurrentSideBar(data.name);
-                if(data.name==="Logout"){
-                  dispatch(toggleLogoutState(true))
-                }else if(data.name==="Home"){
+                if (data.name === "Logout") {
+                  dispatch(toggleLogoutState(true));
+                } else if (data.name === "Home") {
                   router.push("/auth");
                 }
               }}

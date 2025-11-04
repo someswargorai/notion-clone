@@ -5,7 +5,6 @@ import { Heart, Share2 } from "lucide-react";
 import { formateDate } from "@/utils/formateDate";
 import { useAppSelector } from "@/redux/hooks/hook";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 export default function Page() {
   const [favourites, setFavourites] = useState<number[]>([]);
@@ -27,8 +26,7 @@ export default function Page() {
         title: "Check out this project",
         text: "Take a look at this project I’ve been working on:",
         url,
-      }).then(() => toast.success("Shared successfully"))
-      .catch((error) => console.error("Error sharing:", error));
+      });
     } else {
       await navigator.clipboard.writeText(url);
       alert("Link copied to clipboard!");
@@ -47,9 +45,7 @@ export default function Page() {
               onClick={() => router.push(`/auth/project/${data.id}`)}
               className="relative border border-gray-200 bg-white rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-300 ease-in-out cursor-pointer"
             >
-              {/* --- Action Buttons --- */}
               <div className="absolute top-4 right-4 flex items-center gap-2">
-                {/* Share Button */}
                 <button
                   onClick={(e) => handleShare(e, data.id)}
                   className="text-gray-400 hover:text-blue-500 transition-all duration-300"
@@ -58,7 +54,6 @@ export default function Page() {
                   <Share2 size={18} />
                 </button>
 
-                {/* Favourite Button */}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -79,7 +74,6 @@ export default function Page() {
                 </button>
               </div>
 
-              {/* --- Card Content --- */}
               <div className="flex flex-col gap-2 mb-6">
                 <p className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
                   {data.name}
@@ -95,7 +89,6 @@ export default function Page() {
                 </p>
               </div>
 
-              {/* --- Footer Info --- */}
               <div className="text-xs text-gray-400 space-y-1 border-t border-gray-100 pt-3">
                 <p>
                   <span className="font-medium text-gray-500">Created:</span>{" "}

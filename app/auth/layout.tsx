@@ -5,6 +5,8 @@ import Sidebar from "./_components/Sidebar";
 import CreateProject from "./_components/CreateProject";
 import { useAppSelector } from "@/redux/hooks/hook";
 import LogoutModal from "@/components/ui/dialog";
+import Navbar from "./_components/Navbar";
+import TopNavbar from "./_components/TopNavbar";
 
 function Layout({ children }: { children: React.ReactNode }) {
   const { addProject } = useAppSelector((state) => state.project);
@@ -13,9 +15,11 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-full flex">
       <Sidebar />
+      <TopNavbar/>
+      <Navbar/>
       {addProject && <CreateProject />}
       {logoutState && <LogoutModal />}
-      <div className="flex-1 bg-white">{children}</div>
+      <div className="flex-1 bg-white overflow-auto">{children}</div>
     </div>
   );
 }
