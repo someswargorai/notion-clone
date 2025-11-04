@@ -1,10 +1,12 @@
 "use client";
 
 import { Heart, MessageCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function TopNavbar() {
   const [resize, setResize] = useState(0);
+  const router=useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -20,7 +22,7 @@ export default function TopNavbar() {
       style={{ display: resize < 500 ? "flex" : "none" }}
       className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 shadow-sm px-6 py-6 items-center justify-between z-100"
     >
-      <div className="flex items-center gap-2 cursor-pointer select-none">
+      <div className="flex items-center gap-2 cursor-pointer select-none" onClick={()=>router.push("/")}>
         <div className="w-7 h-7 rounded-md bg-black text-white flex items-center justify-center font-bold text-sm">
           N
         </div>

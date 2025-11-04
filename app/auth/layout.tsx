@@ -19,7 +19,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       <Navbar/>
       {addProject && <CreateProject />}
       {logoutState && <LogoutModal />}
-      <div className="flex-1 bg-white overflow-auto">{children}</div>
+      <div className="flex-1 bg-white overflow-auto pt-17 pb-16 md:pt-0 md:pb-0">{children}</div>
     </div>
   );
 }
