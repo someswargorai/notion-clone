@@ -37,16 +37,9 @@ export default function BlockNoteEditor() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-3xl mx-auto bg-white shadow-md rounded-xl p-4 border">
-        <BlockNoteView editor={editor} theme="light" />
-
-        <button
-          onClick={handleSaveHTML}
-          className="mt-4 px-4 py-2 bg-black text-white rounded-md"
-        >
-          Save Content
-        </button>
+    <div className="min-h-screen bg-gray-50">
+      <div className="mx-auto bg-white shadow-md border h-screen overflow-auto">
+        <BlockNoteView editor={editor} theme="light"/>
       </div>
     </div>
   );

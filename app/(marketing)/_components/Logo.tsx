@@ -13,7 +13,7 @@ function Logo() {
     <div className="hidden md:flex items-center gap-x-2">
       <Image src="/logo.webp" height="40" width="40" alt="Logo" />
       <p className={cn("font-semibold", font.className)}>
-        Jotion
+        Notion
       </p>
     </div>
   );

@@ -1,30 +1,51 @@
 "use client";
 
-import Image from "next/image";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
-function Heros() {
+export default function Hero() {
+
+  const router=useRouter();
   return (
-    <div className="flex flex-col items-center justify-center max-w-5xl">
-      <div className="flex items-center">
-        <div className="relative w-[400px] h-[300px] sm:w-[350px] sm:h-[350px] md:h-[400px] md:w-[400px] dark:hidden">
-          <Image
-            src="/notion-removebg-preview.png"
-            fill
-            className="object-contain bg-transparent "
-            alt="Documents"
-          />
+    <section className="flex flex-col items-center justify-center text-center py-0 sm:py-6 px-6 bg-linear-to-b">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="max-w-3xl"
+      >
+        <h1 className="text-2xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          The All-in-One Workspace <br /> for Notes, Docs & Ideas
+        </h1>
+
+        <p className="text-md md:text-xl text-gray-600 mb-10">
+          Simplify your thoughts, plan projects, and organize knowledge — all in one
+          seamless Notion-style editor built with modern web tech.
+        </p>
+
+        <div className="flex flex-wrap justify-center gap-4">
+          <Button className="px-6 py-3 text-lg rounded-full shadow-md hover:scale-105 transition-transform cursor-pointer" onClick={()=>router.push('/auth')}>
+            Start Writing
+          </Button>
+
+          <Button
+            variant="outline"
+            className="px-6 py-3 text-lg rounded-full hover:bg-gray-100 transition cursor-pointer"
+          >
+            Learn More
+          </Button>
         </div>
-        <div className="relative h-[300px] w-[300px] hidden md:block dark:hidden">
-          <Image
-            src="/notion-removebg-preview-1.png"
-            fill
-            className="object-contain bg-transparent"
-            alt="Reading"
-          />
-        </div>
-      </div>
-    </div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="text-sm text-gray-400 mt-8"
+        >
+          Built by Someswar Gorai — inspired by Notion, powered by Next.js ⚡
+        </motion.p>
+      </motion.div>
+    </section>
   );
 }
-
-export default Heros;

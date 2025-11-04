@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/providers/theme-providers";
 import ReduxProvider from "./auth/_components/ReduxProvider";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Jotion",
+  title: "Notion",
   description: "The connected workspace where better, faster work happens.",
   icons:{
     icon:[
@@ -49,9 +50,10 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-          storageKey="jotion-theme"
+          storageKey="Notion-theme"
           >
           {children}
+          <Toaster />
          </ThemeProvider>
         </ReduxProvider>
       </body>

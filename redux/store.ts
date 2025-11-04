@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import ProjectReducer from './slices/projectSlice';
+import LogoutReducer from './slices/logoutSlice';
 
 export const store=configureStore({
     reducer:{
-        project: ProjectReducer
+        project: ProjectReducer,
+        logout: LogoutReducer
     }
 })
 

@@ -19,6 +19,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { toggleProjectState } from "@/redux/slices/projectSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hook";
+import { useRouter } from "next/navigation";
+import { toggleLogoutState } from "@/redux/slices/logoutSlice";
 
 const fixed_width = 256;
 const collapsed_width = 80;
@@ -30,7 +32,8 @@ function Sidebar() {
   const [hide, setHide] = useState<Record<string, boolean>>({});
   const dispatch = useAppDispatch();
   const { projects } = useAppSelector((state) => state.project);
-  const [drag, setDrag]=useState(false);
+  const [drag, setDrag] = useState(false);
+  const router = useRouter();
 
   const items = [
     { id: 1, name: "Home", isCollapsable: false, icon: <Home size={18} /> },
@@ -141,19 +144,21 @@ function Sidebar() {
     };
   }, [drag]);
 
-
   return (
     <div
-      className={`bg-white border-r border-gray-200 text-gray-800 min-h-screen p-4 transition-all duration-300 ease-in-out shadow-sm flex-col ${width>=fixed_width ? "flex justify-between": "flex justify-center items-center"}`}
+      className={`bg-white border-r border-gray-200 text-gray-800 min-h-screen p-4 transition-all duration-300 ease-in-out shadow-sm flex-col ${
+        width >= fixed_width
+          ? "flex justify-between"
+          : "flex justify-center items-center"
+      }`}
       style={{ width }}
-    
     >
-       <div
+      <div
         onMouseDown={() => setDrag(true)}
         className="cursor-w-resize min-h-screen fixed top-0 select-none"
         style={{
-          width:"10px",
-          left:width
+          width: "10px",
+          left: width,
         }}
       ></div>
       <div
@@ -162,7 +167,10 @@ function Sidebar() {
         }`}
       >
         {width >= fixed_width && (
-          <p className="text-lg font-semibold tracking-tight text-gray-900">
+          <p
+            className="text-lg font-semibold tracking-tight text-gray-900 cursor-pointer"
+            onClick={() => router.push("/")}
+          >
             Notion
           </p>
         )}
@@ -188,6 +196,11 @@ function Sidebar() {
                   [data.name]: !prev[data.name],
                 }));
                 setCurrentSideBar(data.name);
+                if(data.name==="Logout"){
+                  dispatch(toggleLogoutState(true))
+                }else if(data.name==="Home"){
+                  router.push("/auth");
+                }
               }}
               className={`group flex items-center p-2 gap-3 rounded-lg transition-all duration-200 cursor-pointer hover:bg-blue-100
                 ${data.name === currentSideBar && "bg-blue-100"}
@@ -273,7 +286,6 @@ function Sidebar() {
           )}
         </div>
       </div>
-      
     </div>
   );
 }
