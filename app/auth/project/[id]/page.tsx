@@ -4,9 +4,11 @@ import { useEffect } from "react";
 import "@blocknote/mantine/style.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import { useCreateBlockNote } from "@blocknote/react";
+import { useTheme } from "next-themes";
 
 export default function BlockNoteEditor() {
 
+  const { resolvedTheme } = useTheme();
   const savedData = typeof window !== "undefined"
       ? localStorage.getItem("blocknote-content")
       : null;
@@ -31,15 +33,17 @@ export default function BlockNoteEditor() {
    
   }, [editor]);
 
-  const handleSaveHTML = async () => {
-    const html = await editor.blocksToHTMLLossy(editor.document);
-    console.log("Generated HTML:", html);
-  };
+  // const handleSaveHTML = async () => {
+  //   const html = await editor.blocksToHTMLLossy(editor.document);
+  //   console.log("Generated HTML:", html);
+  // };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto bg-white shadow-md border h-screen overflow-auto z-1 md:py-2">
-        <BlockNoteView editor={editor} theme="light"/>
+      <div className="mx-auto py-5 bg-white shadow-md border overflow-auto z-1 md:py-2m dark:bg-black dark:text-white" style={{
+        height:"h-[calc(100vh - 200px)]",
+      }}>
+        <BlockNoteView editor={editor} theme={resolvedTheme === "dark" ? "dark" : "light"} />
       </div>
     </div>
   );

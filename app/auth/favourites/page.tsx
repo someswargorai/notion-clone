@@ -34,8 +34,8 @@ export default function Page() {
   };
 
   return (
-    <div className="min-w-full p-2 md:p-8 overflow-y-auto custom_scrollbar bg-linear-to-b from-gray-50 to-white">
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 mt-4 mb-4">
+    <div className="min-w-full p-4 md:p-8 overflow-y-auto custom_scrollbar bg-linear-to-b from-gray-50 to-white h-[calc(100vh- 200px)]">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {projects.map((data) => {
           const isFavourite = favourites.includes(data.id);
 

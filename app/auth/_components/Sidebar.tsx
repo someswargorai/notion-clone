@@ -66,21 +66,13 @@ function Sidebar() {
     {
       id: 7,
       name: "Notifications",
-      isCollapsable: true,
-      child: [
-        { id: "child_notification_1", name: "Notification 1" },
-        { id: "child_notification_2", name: "Notification 2" },
-      ],
+      isCollapsable: false,
       icon: <Bell size={18} />,
     },
     {
       id: 8,
       name: "Settings",
-      isCollapsable: true,
-      child: [
-        { id: "child_settings_1", name: "Settings 1" },
-        { id: "child_settings_2", name: "Settings 2" },
-      ],
+      isCollapsable: false,
       icon: <Settings size={18} />,
     },
     { id: 9, name: "Logout", isCollapsable: false, icon: <LogOut size={18} /> },
@@ -190,7 +182,7 @@ function Sidebar() {
       <div
         className={`pt-8 flex-1 ${
           width >= fixed_width ? "overflow-y-auto" : "overflow-visible"
-        } custom_scrollbar`}
+        } custom_scrollbar h-[80vh]`}
       >
         {items.map((data) => (
           <div key={data.id} className="relative mb-1">
@@ -204,6 +196,15 @@ function Sidebar() {
                   dispatch(toggleLogoutState(true));
                 } else if (data.name === "Home") {
                   router.push("/auth");
+                } else if (data.name === "Favorites") {
+                  router.push("/auth/favourites");
+                }
+                else if (data.name === "Settings") {
+                  router.push("/auth/settings");
+                }else if (data.name === "Messages") {
+                  window.location.assign("https://ping-me-frontend.vercel.app");
+                }else if (data.name === "Notifications") {
+                  router.push("/auth/notifications");
                 }
               }}
               className={`group flex items-center p-2 gap-3 rounded-lg transition-all duration-200 cursor-pointer hover:bg-blue-100
@@ -278,18 +279,19 @@ function Sidebar() {
         ))}
       </div>
 
-      <div>
+    
         <div
           className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-gray-100 transition-all duration-200 ${
             width <= collapsed_width ? "justify-center" : ""
           }`}
+          onClick={()=>router.push("/auth/profile")}
         >
           <User size={18} className="text-gray-500" />
           {width >= fixed_width && (
             <span className="text-sm font-medium text-gray-700">Profile</span>
           )}
         </div>
-      </div>
+    
     </div>
   );
 }

@@ -15,11 +15,13 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-full flex">
       <Sidebar />
-      <TopNavbar/>
-      <Navbar/>
+      <TopNavbar />
+      <Navbar />
       {addProject && <CreateProject />}
       {logoutState && <LogoutModal />}
-      <div className="flex-1 bg-white overflow-auto pt-17 pb-16 md:pt-0 md:pb-0">{children}</div>
+      <div className="flex-1 bg-white overflow-auto pt-[68px] pb-16 md:pt-0 md:pb-0 h-[calc(100vh-80px)] md:h-[calc(100vh-10px)]">
+        {children}
+      </div>
     </div>
   );
 }

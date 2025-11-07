@@ -21,9 +21,9 @@ export default function LogoutModal() {
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-        <div className="relative w-[90%] max-w-md rounded-lg bg-white shadow-lg p-6 animate-fadeIn">
+        <div className="relative dark:bg-black dark:text-white dark:border-1 text-black w-[90%] max-w-md rounded-lg bg-white shadow-lg p-6 animate-fadeIn">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
               <LogOut className="h-5 w-5 text-gray-600" />
               Sign out
             </h2>

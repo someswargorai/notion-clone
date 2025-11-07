@@ -15,7 +15,7 @@ export default function Hero() {
         transition={{ duration: 0.8 }}
         className="max-w-3xl"
       >
-        <h1 className="text-2xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+        <h1 className="dark:text-white text-2xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
           The All-in-One Workspace <br /> for Notes, Docs & Ideas
         </h1>
 
