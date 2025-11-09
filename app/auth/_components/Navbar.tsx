@@ -36,7 +36,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around items-center py-3 px-2 shadow-md md:hidden z-100 dark:bg-black dark:text-white" style={{display: resize <500 ? "flex":"none"}}>
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 justify-around items-center py-3 px-2 shadow-md sm:hidden z-100 dark:bg-black dark:text-white flex flex-row" >
       <button
         onClick={() => handleNavClick("/auth")}
         className="flex flex-col items-center text-gray-500 hover:text-blue-600 transition-all"

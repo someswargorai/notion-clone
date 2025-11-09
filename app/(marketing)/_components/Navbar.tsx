@@ -4,9 +4,13 @@ import { useScrollTop } from "@/hooks/user-scroll-top";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import { Button } from "@/components/ui/button";
+import { usePathname, useRouter } from "next/navigation";
 
 function Navbar() {
   const scrolled = useScrollTop();
+  const router= useRouter();
+  const path=usePathname();
 
   return (
     <div
@@ -17,6 +21,12 @@ function Navbar() {
     >
       <Logo />
       <div className="md:ml-auto md:justify-end justify-between w-full flex items-center gap-x-2">
+        {path!=="/sign-in" && <div className="flex gap-2 ">
+          
+          <Button className="cursor-pointer" onClick={()=>router.push("/sign-in")}>Sign in</Button>
+
+          <Button variant="secondary" className="cursor-pointer" onClick={()=>router.push("/sign-in")}>Sign up for free</Button>
+        </div>}
         <ModeToggle />
       </div>
     </div>

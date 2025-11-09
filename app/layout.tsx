@@ -4,6 +4,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ui/providers/theme-providers";
 import ReduxProvider from "./auth/_components/ReduxProvider";
 import { Toaster } from "sonner";
+import SessionProviders from "@/components/ui/providers/SessionProviders";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,6 +46,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <SessionProviders>
         <ReduxProvider>
           <ThemeProvider 
           attribute="class"
@@ -56,6 +59,7 @@ export default function RootLayout({
           <Toaster />
          </ThemeProvider>
         </ReduxProvider>
+      </SessionProviders>
       </body>
     </html>
   );

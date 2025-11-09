@@ -142,12 +142,12 @@ function Sidebar() {
 
   return (
     <div
-      className={`bg-white border-r border-gray-200 text-gray-800 min-h-screen p-4 transition-all duration-300 ease-in-out shadow-sm flex-col ${
+      className={`bg-white border-r border-gray-200 text-gray-800 min-h-screen p-4 transition-all duration-300 ease-in-out shadow-sm hidden sm:block flex-col ${
         width >= fixed_width
           ? "flex justify-between"
           : "flex justify-center items-center"
       }`}
-      style={{ width: width, display: resize < 500 ? "none" : "block" }}
+      style={{ width: width}}
     >
       <div
         onMouseDown={() => setDrag(true)}

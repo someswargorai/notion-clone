@@ -5,11 +5,13 @@ import { Heart, Share2 } from "lucide-react";
 import { formateDate } from "@/utils/formateDate";
 import { useAppSelector } from "@/redux/hooks/hook";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function Page() {
   const [favourites, setFavourites] = useState<number[]>([]);
   const { projects } = useAppSelector((state) => state.project);
   const router = useRouter();
+  const { data: session } = useSession()
 
   const toggleFavourite = (id: number) => {
     setFavourites((prev) =>

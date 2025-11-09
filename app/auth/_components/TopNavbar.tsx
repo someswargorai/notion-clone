@@ -20,8 +20,8 @@ export default function TopNavbar() {
 
   return (
     <div
-      style={{ display: resize < 500 ? "flex" : "none" }}
-      className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 shadow-sm px-6 py-6 items-center justify-between z-100 dark:bg-black dark:text-white"
+     
+      className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 shadow-sm px-6 py-6 items-center justify-between z-100 dark:bg-black dark:text-white flex sm:hidden"
     >
       <div
         className="flex items-center gap-2 cursor-pointer select-none"
