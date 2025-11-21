@@ -1,38 +1,46 @@
-import { createSlice } from "@reduxjs/toolkit";
-const initialState = {
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { getSession } from "next-auth/react";
+
+interface Project {
+  name: string | undefined;
+  id: number;
+  _id: string;
+  title: string;
+  description:string,
+  createdAt:string,
+  updatedAt:string,
+  lastVisitedAt: string;
+}
+
+interface ProjectState {
+  load: boolean;
+  addProject: boolean;
+  projects: Project[];
+}
+
+const initialState: ProjectState = {
+  load: false,
   addProject: false,
-  projects:[{
-    id: 1,
-    name: "NextGen Dashboard",
-    description:
-      "A modern analytics dashboard built with Next.js and Tailwind CSS.",
-    createdAt: "2025-10-15T10:32:00Z",
-    lastVisitedAt: "2025-11-02T08:45:00Z",
-  },
-  {
-    id: 2,
-    name: "AI Chat Companion",
-    description: "An AI-powered chat assistant built using OpenAI’s GPT-5 API.",
-    createdAt: "2025-09-10T12:00:00Z",
-    lastVisitedAt: "2025-10-31T14:22:00Z",
-  },
-  {
-    id: 3,
-    name: "TaskFlow Manager",
-    description:
-      "A simple Kanban board app to manage tasks and productivity workflows.",
-    createdAt: "2025-08-21T09:15:00Z",
-    lastVisitedAt: "2025-11-01T18:00:00Z",
-  },
-  {
-    id: 4,
-    name: "CodeCollab",
-    description:
-      "A collaborative code editing and sharing platform for developers.",
-    createdAt: "2025-07-05T16:45:00Z",
-    lastVisitedAt: "2025-10-29T22:10:00Z",
-  }]
+  projects: [],
 };
+
+export const projectInitialize = createAsyncThunk(
+  "project/initialize",
+  async () => {
+    const session = await getSession();
+    if (!session || !session.token)
+      throw new Error("Not authenticated");
+
+    const response = await axios.get("http://localhost:3001/project/get-projects", {
+      headers: {
+        Authorization: `Bearer ${session.token}`, // ✅ correct usage
+      },
+    });
+
+    return response.data;
+  }
+);
 
 const projectSlice = createSlice({
   name: "projectSlice",
@@ -41,9 +49,22 @@ const projectSlice = createSlice({
     toggleProjectState: (state, action) => {
       state.addProject = action.payload;
     },
-    addNewProject:(state,action)=>{
-        state.projects=[...state.projects,action.payload];
-    }
+    addNewProject: (state, action) => {
+      state.projects = [...state.projects, action.payload];
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(projectInitialize.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(projectInitialize.fulfilled, (state, action) => {
+        state.load = false;
+        state.projects = action.payload;
+      })
+      .addCase(projectInitialize.rejected, (state) => {
+        state.load = false;
+      });
   },
 });
 

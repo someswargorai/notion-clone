@@ -2,23 +2,31 @@
 
 import { useAppDispatch } from "@/redux/hooks/hook";
 import { addNewProject, toggleProjectState } from "@/redux/slices/projectSlice";
+import axios from "axios";
 import { Loader, X } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 function CreateProject() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const session= useSession();
   const dispatch = useAppDispatch();
 
   const Cancel = () => {
     dispatch(toggleProjectState(false));
   };
 
-  const handleSave = () => {
+  const handleSave = async() => {
     try {
       setLoading(true);
+    
+      axios.post("http://localhost:3001/project/project-creation",{title:title, description:description},{
+        headers: {
+          Authorization:`Bearer ${session.data?.token as unknown as string}`
+        }
+      });
     } catch (err) {
       console.log(err);
     } finally {
